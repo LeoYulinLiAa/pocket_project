@@ -1,26 +1,246 @@
 @import "reset.css";
 
-html {
-  box-sizing: border-box;
-  background: #A9DBB8;
-  text-align: center;
+
+$background-color: #ffffff;
+$background-color-light: #efefef;
+$text-default: #333333;
+$text-default-secondary: #666666;
+$color-primary: #8ace15;
+$color-secondary: #999999;
+$color-warning: #f6ba13;
+$color-danger: #ef7240;
+$border-color: #d5d5d5;
+$default-border-radius: 0.25rem;
+
+$nav-color: #333333;
+$nav-text: #eeeeee;
+$nav-active: $color-primary;
+$nav-hover: #eeeeee;
+
+$max-width: 768px;
+
+$themes: (
+  primary: $color-primary,
+  secondary: $color-secondary,
+  warning: $color-warning,
+  danger: $color-danger
+);
+
+body {
+  font-family: 'Segoe UI', 'Open Sans', Tahoma, Geneva, Verdana, sans-serif;
+  color: $text-default;
+  margin: 0;
+  background: $background-color;
 }
 
-h1 {
-  color: #F0F2EF;
-  font-family: 'helvetica neue', serif;
-  font-size: 20px;
-  font-weight: 200;
+a {
+  color: $text-default;
+  text-decoration: underline;
+
+  &:active {
+    color: $text-default-secondary;
+    text-decoration: underline;
+  }
 }
 
-.header {
+.main {
+  max-width: $max-width;
+  margin: auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  flex-flow: column;
+  align-items: baseline;
+  padding: 1rem;
+
+  h1, h2, h3, h4, h5, h6, p, small, span {
+    @each $theme, $color in $themes {
+      &.#{$theme} {
+        color: darken($color, 10%);
+      }
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+    margin: 1rem 0;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  small {
+    color: $text-default-secondary;
+  }
+
+  p {
+    margin: 0 0 1rem 0;
+  }
 }
 
-.welcome {
-  font-weight: 400;
-  margin-top: 100px;
+.form-group {
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  label {
+    margin-bottom: 0.5em;
+  }
+}
+
+@mixin input-theme($color) {
+  border: 1px solid $color;
+  &:focus {
+    border-color: $color;
+    box-shadow: 0 0 0.25rem rgba($color, 0.5);
+    outline: $color;
+  }
+}
+
+.main-nav {
+  background-color: $nav-color;
+  color: $nav-text;
+
+  .nav-content {
+    margin: auto;
+    padding: 0 1rem;
+    max-width: $max-width;
+    display: flex;
+    align-items: center;
+
+    & > ul {
+      display: flex;
+      align-items: center;
+      & > li {
+        padding: 1rem;
+        &:hover {
+          box-shadow: inset 0 -0.25rem $nav-hover;
+        }
+        &.active {
+          box-shadow: inset 0 -0.25rem $nav-active;
+        }
+      }
+    }
+  }
+}
+
+.drop-down-dog-nav {
+  position: relative;
+}
+
+.drop-down-dog-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 200px;
+  background-color: $background-color;
+
+  display: none;
+  position: absolute;
+  top: 3rem;
+  left: 0;
+
+  box-shadow: 3px 3px 12px rgba($nav-color, 0.25);
+
+  li {
+    & > a {
+      padding: 1rem;
+      display: block;
+    }
+    &:hover {
+      background-color: $background-color-light;
+    }
+  }
+}
+
+.open {
+  display: block;
+}
+
+input, textarea {
+  padding: 0.5em;
+  border: 1px solid $border-color;
+  border-radius: $default-border-radius;
+
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: 0 0 0.25rem rgba($color-primary, 0.5);
+    outline: $color-primary;
+  }
+
+  @each $theme, $color in $themes {
+    &.#{$theme} {
+      @include input-theme($color);
+    }
+  }
+}
+
+@mixin scrollbar-theme($color) {
+  &::-webkit-scrollbar-thumb {
+    background: $color;
+    border-radius: $default-border-radius;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: darken($color, 5%);
+  }
+}
+
+textarea {
+  resize: none;
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    cursor: default;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  @include scrollbar-theme($color-primary);
+
+  @each $theme, $color in $themes {
+    &.#{$theme} {
+      @include scrollbar-theme($color);
+    }
+  }
+}
+
+@mixin button-theme($button-color) {
+  background-color: $button-color;
+  color: white;
+  &:focus {
+    box-shadow: 0 0 0.25rem rgba($button-color, 0.5);
+  }
+  &:hover, &:focus {
+    background-color: darken($button-color, 3%);
+  }
+  &:active {
+    background-color: lighten($button-color, 5%);
+  }
+}
+
+button {
+  outline: none;
+  border: none;
+  border-radius: $default-border-radius;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: $text-default-secondary;
+  background-color: $background-color;
+  margin: 0.25rem;
+
+  @each $theme, $color in $themes {
+    &.#{$theme} {
+      @include button-theme($color);
+    }
+  }
+}
+
+* {
+  box-sizing: border-box;
 }
 
 /*  Phase 4: Slide In & Out Classes */
@@ -51,12 +271,4 @@ h1 {
 .slide.active {
   opacity: 1;
   transform: translateX(0%) scale(1);
-}
-
-.drop-down-dog-list {
-  display: none;
-}
-
-.open {
-  display: block;
 }
