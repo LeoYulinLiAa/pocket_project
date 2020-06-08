@@ -8,6 +8,7 @@ const partyHeader = document.getElementById('party');
  * @param {HTMLElement} htmlElement
  */
 export const htmlGenerator = (string, htmlElement) => {
+  Array.from(htmlElement.children).forEach(e => e.remove());
   const element = document.createElement("p");
   element.innerText = string;
   htmlElement.append(element);
