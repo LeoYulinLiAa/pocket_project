@@ -46,10 +46,6 @@ a {
 .main {
   max-width: $max-width;
   margin: auto;
-  display: flex;
-  justify-content: center;
-  flex-flow: column;
-  align-items: baseline;
   padding: 1rem;
 
   h1, h2, h3, h4, h5, h6, p, small, span {
@@ -67,6 +63,10 @@ a {
 
   h1 {
     font-size: 48px;
+  }
+
+  h2 {
+    font-size: 28px;
   }
 
   small {

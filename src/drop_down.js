@@ -13,11 +13,9 @@ export const dogDropDown = () => {
   const dropDownList = document.getElementById("drop-down-dog-list");
   const dropDownBox = document.getElementById("drop-down-dog-nav");
   dropDownBox.addEventListener("mouseenter", event => {
-    console.log("hi")
     dropDownList.classList.add("open");
   });
   dropDownBox.addEventListener("mouseleave", event => {
-    console.log("bye")
     dropDownList.classList.remove("open");
   });
   Object.entries(dogs).forEach(([name, link]) => {
